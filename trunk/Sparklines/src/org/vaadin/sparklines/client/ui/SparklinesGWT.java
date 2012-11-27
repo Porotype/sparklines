@@ -100,7 +100,7 @@ public class SparklinesGWT extends Composite {
         value.setStylePrimaryName(CLASSNAME + "value");
         value.getElement().getStyle().setColor(valueColor);
         main.add(value);
-        //main.setCellWidth(value, "100%");
+        // main.setCellWidth(value, "100%");
 
         FlowPanel minmax = new FlowPanel();
         minmax.setStylePrimaryName(CLASSNAME + "minmax");
@@ -147,6 +147,10 @@ public class SparklinesGWT extends Composite {
 
     public SparklinesGWT(String caption) {
         this(caption, 0, 0);
+    }
+
+    public SparklinesGWT() {
+        this("");
     }
 
     public String getAverageColor() {

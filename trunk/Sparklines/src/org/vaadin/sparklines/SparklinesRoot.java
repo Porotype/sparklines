@@ -4,9 +4,10 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-import com.vaadin.Application;
+import com.vaadin.annotations.Theme;
 import com.vaadin.data.Item;
 import com.vaadin.data.util.BeanItem;
+import com.vaadin.terminal.WrappedRequest;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -17,27 +18,24 @@ import com.vaadin.ui.Form;
 import com.vaadin.ui.FormFieldFactory;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.Root;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
-public class SparklinesApp extends Application {
-
+@Theme("sparklinestheme")
+public class SparklinesRoot extends Root {
     Window configure;
 
     @Override
-    public void init() {
-        Window mainWindow = new Window("Sparklines Demo");
-        setMainWindow(mainWindow);
+    public void init(WrappedRequest request) {
 
-        setTheme("sparklinestheme");
-
-        mainWindow.getContent().setStyleName("black");
-        mainWindow.getContent().setHeight("100%");
+        getContent().setStyleName("black");
+        getContent().setHeight("100%");
 
         Label info = new Label(
                 "<h1>Sparklines for GWT and Vaadin</h1><h2>\"small, intense, simple datawords\"</h2><a href=\"http://www.edwardtufte.com/bboard/q-and-a-fetch-msg?msg_id=0001OR\">Refer to Edward Tufte for more information about sparklines</a> (must read)");
         info.setContentMode(Label.CONTENT_XHTML);
-        mainWindow.addComponent(info);
+        addComponent(info);
 
         List<Integer> data1 = Arrays.asList(60, 62, 55, 62, 63, 64, 63, 65, 68,
                 65, 69, 70, 75, 74, 75, 74, 78, 76, 74, 85, 70, 65, 63, 64, 69,
@@ -58,25 +56,27 @@ public class SparklinesApp extends Application {
         s.setValueLabelVisible(false);
         s.setMinmaxLabelsVisible(false);
         s.setMinmaxDotsVisible(false);
-        mainWindow.addComponent(s);
+        addComponent(s);
+        s.setWidth("100px");
+        s.setHeight("50px");
 
         s = new Sparklines("Stuff", 0, 0, 50, 100);
         s.setDescription("Shows current value, visually connected to graph with color");
         s.setValue(data1);
         s.setMinmaxLabelsVisible(false);
         s.setMinmaxDotsVisible(false);
-        mainWindow.addComponent(s);
+        addComponent(s);
 
         s = new Sparklines("Stuff", 0, 0, 50, 100);
         s.setDescription("Current, minimum and maximum values are shown");
         s.setValue(data1);
-        mainWindow.addComponent(s);
+        addComponent(s);
 
         s = new Sparklines("Stuff", 0, 0, 50, 100);
         s.setDescription("Adds line indicating average");
         s.setValue(data1);
         s.setAverageVisible(true);
-        mainWindow.addComponent(s);
+        addComponent(s);
 
         s = new Sparklines("Stuff", 0, 0, 50, 100);
         s.setDescription("Shaded area indicates 'normal' range");
@@ -86,7 +86,7 @@ public class SparklinesApp extends Application {
         s.setNormalRangeMax(80);
         s.setNormalRangeMin(60);
         s.setNormalRangeVisible(true);
-        mainWindow.addComponent(s);
+        addComponent(s);
 
         s = new Sparklines("Stuff", 0, 0, 50, 100);
         s.setDescription("Everything turned on");
@@ -98,7 +98,7 @@ public class SparklinesApp extends Application {
         s.setNormalRangeVisible(true);
         s.setMaxColor("#f69");
         s.setMinColor("#6f9");
-        mainWindow.addComponent(s);
+        addComponent(s);
 
         s = new Sparklines("Stuff", 0, 0, 50, 100);
         s.setDescription("Color indicates if min/max is the current value");
@@ -110,7 +110,7 @@ public class SparklinesApp extends Application {
         s.setNormalRangeVisible(true);
         s.setMaxColor("#f69");
         s.setMinColor("#6f9");
-        mainWindow.addComponent(s);
+        addComponent(s);
 
         for (int i = 0; i < data2.length; i++) {
             data2[i] = Integer.valueOf((int) (Math.random() * 140 + 60));
@@ -120,7 +120,7 @@ public class SparklinesApp extends Application {
         s.setMaxColor("#f69");
         s.setMinColor("#6f9");
         s.setValue(Arrays.asList(data2));
-        mainWindow.addComponent(s);
+        addComponent(s);
 
         data2 = new Integer[30];
         for (int i = 0; i < data2.length; i++) {
@@ -130,12 +130,12 @@ public class SparklinesApp extends Application {
         s = new Sparklines("Strings", 0, 0, 50, 100);
         s.setDescription("Using strings as data");
         s.setValue(data4);
-        mainWindow.addComponent(s);
+        addComponent(s);
 
         HorizontalLayout hl = new HorizontalLayout();
-        mainWindow.addComponent(hl);
-        ((VerticalLayout) mainWindow.getContent()).setExpandRatio(hl, 1);
-        ((VerticalLayout) mainWindow.getContent()).setComponentAlignment(hl,
+        addComponent(hl);
+        ((VerticalLayout) getContent()).setExpandRatio(hl, 1);
+        ((VerticalLayout) getContent()).setComponentAlignment(hl,
                 Alignment.MIDDLE_LEFT);
 
         final Sparklines s2 = new Sparklines("Random", 200, 70, 0, 200) {
@@ -181,7 +181,7 @@ public class SparklinesApp extends Application {
         Button conf = new Button("Configure", new Button.ClickListener() {
             public void buttonClick(ClickEvent event) {
                 if (configure.getParent() == null || !configure.isVisible()) {
-                    getMainWindow().addWindow(configure);
+                    addWindow(configure);
                 }
             }
         });
@@ -206,7 +206,7 @@ public class SparklinesApp extends Application {
 
             final Form conf = new Form();
             conf.setFormFieldFactory(new FormFieldFactory() {
-                @Override
+
                 public Field createField(Item item, Object propertyId,
                         Component uiContext) {
                     if ("value".equals(propertyId)) {
