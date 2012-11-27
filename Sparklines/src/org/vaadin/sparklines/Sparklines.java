@@ -3,11 +3,14 @@ package org.vaadin.sparklines;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
-import org.vaadin.sparklines.client.ui.VSparklines;
+import org.vaadin.sparklines.client.ui.SparklinesConnector;
 
+import com.vaadin.data.util.converter.Converter.ConversionException;
 import com.vaadin.terminal.PaintException;
 import com.vaadin.terminal.PaintTarget;
+import com.vaadin.terminal.Vaadin6Component;
 import com.vaadin.ui.AbstractField;
 
 /**
@@ -46,8 +49,7 @@ import com.vaadin.ui.AbstractField;
  * </p>
  * 
  */
-@com.vaadin.ui.ClientWidget(org.vaadin.sparklines.client.ui.VSparklines.class)
-public class Sparklines extends AbstractField {
+public class Sparklines extends AbstractField implements Vaadin6Component {
 
     private int graphHeight;
     private int graphWidth;
@@ -87,35 +89,39 @@ public class Sparklines extends AbstractField {
         setValue(value);
     }
 
-    @Override
     public void paintContent(PaintTarget target) throws PaintException {
-        super.paintContent(target);
 
-        target.addAttribute(VSparklines.graphHeight, graphHeight);
-        target.addAttribute(VSparklines.graphWidth, graphWidth);
-        target.addAttribute(VSparklines.displayRangeMax, displayRangeMax);
-        target.addAttribute(VSparklines.displayRangeMin, displayRangeMin);
+        target.addAttribute(SparklinesConnector.graphHeight, graphHeight);
+        target.addAttribute(SparklinesConnector.graphWidth, graphWidth);
+        target.addAttribute(SparklinesConnector.displayRangeMax,
+                displayRangeMax);
+        target.addAttribute(SparklinesConnector.displayRangeMin,
+                displayRangeMin);
 
-        target.addAttribute(VSparklines.pathColor, pathColor);
-        target.addAttribute(VSparklines.pathWidth, pathWidth);
+        target.addAttribute(SparklinesConnector.pathColor, pathColor);
+        target.addAttribute(SparklinesConnector.pathWidth, pathWidth);
 
-        target.addAttribute(VSparklines.valueVisible, valueLabelVisible);
-        target.addAttribute(VSparklines.valueDotVisible, valueDotVisible);
-        target.addAttribute(VSparklines.valueColor, valueColor);
+        target.addAttribute(SparklinesConnector.valueVisible, valueLabelVisible);
+        target.addAttribute(SparklinesConnector.valueDotVisible,
+                valueDotVisible);
+        target.addAttribute(SparklinesConnector.valueColor, valueColor);
 
-        target.addAttribute(VSparklines.normalRangeVisible, normalRangeVisible);
-        target.addAttribute(VSparklines.normalRangeColor, normalRangeColor);
-        target.addAttribute(VSparklines.normalRangeMax, normalRangeMax);
-        target.addAttribute(VSparklines.normalRangeMin, normalRangeMin);
+        target.addAttribute(SparklinesConnector.normalRangeVisible,
+                normalRangeVisible);
+        target.addAttribute(SparklinesConnector.normalRangeColor,
+                normalRangeColor);
+        target.addAttribute(SparklinesConnector.normalRangeMax, normalRangeMax);
+        target.addAttribute(SparklinesConnector.normalRangeMin, normalRangeMin);
 
-        target.addAttribute(VSparklines.averageVisible, averageVisible);
-        target.addAttribute(VSparklines.averageColor, averageColor);
+        target.addAttribute(SparklinesConnector.averageVisible, averageVisible);
+        target.addAttribute(SparklinesConnector.averageColor, averageColor);
 
-        target.addAttribute(VSparklines.minmaxLabelsVisible,
+        target.addAttribute(SparklinesConnector.minmaxLabelsVisible,
                 minmaxLabelsVisible);
-        target.addAttribute(VSparklines.minmaxDotsVisible, minmaxDotsVisible);
-        target.addAttribute(VSparklines.maxColor, maxColor);
-        target.addAttribute(VSparklines.minColor, minColor);
+        target.addAttribute(SparklinesConnector.minmaxDotsVisible,
+                minmaxDotsVisible);
+        target.addAttribute(SparklinesConnector.maxColor, maxColor);
+        target.addAttribute(SparklinesConnector.minColor, minColor);
 
         Collection c = (Collection) getValue();
         if (c != null) {
@@ -124,7 +130,7 @@ public class Sparklines extends AbstractField {
             for (int i = 0; i < data.length; i++) {
                 rawData[i] = String.valueOf(data[i]);
             }
-            target.addAttribute(VSparklines.DATA, rawData);
+            target.addAttribute(SparklinesConnector.DATA, rawData);
         }
     }
 
@@ -346,6 +352,11 @@ public class Sparklines extends AbstractField {
     public void setMinColor(String minColor) {
         this.minColor = minColor;
         requestRepaint();
+    }
+
+    public void changeVariables(Object source, Map<String, Object> variables) {
+        // TODO remove once conterted to Vaadin 7 API
+
     }
 
 }
