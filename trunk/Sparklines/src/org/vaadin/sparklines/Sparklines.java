@@ -8,10 +8,10 @@ import java.util.Map;
 import org.vaadin.sparklines.client.ui.SparklinesConnector;
 
 import com.vaadin.data.util.converter.Converter.ConversionException;
-import com.vaadin.terminal.PaintException;
-import com.vaadin.terminal.PaintTarget;
-import com.vaadin.terminal.Vaadin6Component;
+import com.vaadin.server.PaintException;
+import com.vaadin.server.PaintTarget;
 import com.vaadin.ui.AbstractField;
+import com.vaadin.ui.LegacyComponent;
 
 /**
  * <p>
@@ -49,7 +49,7 @@ import com.vaadin.ui.AbstractField;
  * </p>
  * 
  */
-public class Sparklines extends AbstractField implements Vaadin6Component {
+public class Sparklines extends AbstractField implements LegacyComponent {
 
     private int graphHeight;
     private int graphWidth;

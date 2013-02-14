@@ -3,14 +3,14 @@ package org.vaadin.sparklines.client.ui;
 import org.vaadin.sparklines.Sparklines;
 
 import com.google.gwt.core.client.GWT;
-import com.vaadin.terminal.gwt.client.ApplicationConnection;
-import com.vaadin.terminal.gwt.client.UIDL;
-import com.vaadin.terminal.gwt.client.communication.StateChangeEvent;
-import com.vaadin.terminal.gwt.client.ui.Connect;
-import com.vaadin.terminal.gwt.client.ui.Vaadin6Connector;
+import com.vaadin.client.ApplicationConnection;
+import com.vaadin.client.UIDL;
+import com.vaadin.client.communication.StateChangeEvent;
+import com.vaadin.client.ui.LegacyConnector;
+import com.vaadin.shared.ui.Connect;
 
 @Connect(Sparklines.class)
-public class SparklinesConnector extends Vaadin6Connector {
+public class SparklinesConnector extends LegacyConnector {
 
     public static final String graphHeight = "gh";
     public static final String graphWidth = "gw";
@@ -44,6 +44,13 @@ public class SparklinesConnector extends Vaadin6Connector {
 
     /** Reference to the server connection object. */
     ApplicationConnection client;
+
+    @Override
+    protected void init() {
+        super.init();
+
+        getLayoutManager().layoutLater();
+    }
 
     /**
      * Called whenever an update is received from the server
@@ -105,7 +112,7 @@ public class SparklinesConnector extends Vaadin6Connector {
     @Override
     public void onStateChanged(StateChangeEvent stateChangeEvent) {
         super.onStateChanged(stateChangeEvent);
-        getWidget().setCaption(getState().getCaption());
+        getWidget().setCaption(getState().caption);
     }
 
     @Override
