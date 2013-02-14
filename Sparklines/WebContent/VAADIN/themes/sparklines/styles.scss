@@ -1,0 +1,8 @@
+@import "../reindeer/reindeer.scss";
+@import "../sparklines/sparklines.scss";
+
+.sparklines {
+	@include reindeer;
+	@include sparklines;
+
+}

@@ -9,17 +9,14 @@
   </context-param>
   <servlet>
   	<servlet-name>Sparklines Demo</servlet-name>
-  	<servlet-class>
-  	com.vaadin.terminal.gwt.server.ApplicationServlet</servlet-class>
+  	<servlet-class>com.vaadin.server.VaadinServlet</servlet-class>
   	<init-param>
-  		<description>
-  		Vaadin application class to start</description>
-  		<param-name>root</param-name>
+  		<description>Vaadin application class to start</description>
+  		<param-name>UI</param-name>
   		<param-value>org.vaadin.sparklines.SparklinesRoot</param-value>
   	</init-param>
   	<init-param>
-  		<description>
-  		Application widgetset</description>
+  		<description>Application widgetset</description>
   		<param-name>widgetset</param-name>
   		<param-value>org.vaadin.sparklines.SparklinesWidgetset</param-value>
   	</init-param>
