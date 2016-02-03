@@ -1,13 +1,8 @@
-package org.vaadin.sparklines;
-
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+package com.example.sparklines;
 
 import com.vaadin.annotations.Theme;
 import com.vaadin.data.Item;
 import com.vaadin.data.util.BeanItem;
-import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -18,18 +13,21 @@ import com.vaadin.ui.Form;
 import com.vaadin.ui.FormFieldFactory;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import org.vaadin.addonhelpers.AbstractTest;
+import org.vaadin.sparklines.Sparklines;
 
+@SuppressWarnings("serial")
 @Theme("sparklines")
-public class SparklinesRoot extends UI {
-    Window configure;
+public class SparklinesUI extends AbstractTest {
 
     @Override
-    protected void init(VaadinRequest request) {
-        VerticalLayout content = new VerticalLayout();
-        setContent(content);
+    public Component getTestComponent() {
+        final VerticalLayout content = new VerticalLayout();
         content.setStyleName("black");
         content.setHeight("100%");
         content.setMargin(true);
@@ -63,7 +61,8 @@ public class SparklinesRoot extends UI {
         s.setHeight("50px");
 
         s = new Sparklines("Stuff", 0, 0, 50, 100);
-        s.setDescription("Shows current value, visually connected to graph with color");
+        s.setDescription(
+                "Shows current value, visually connected to graph with color");
         s.setValue(data1);
         s.setMinmaxLabelsVisible(false);
         s.setMinmaxDotsVisible(false);
@@ -136,8 +135,8 @@ public class SparklinesRoot extends UI {
 
         HorizontalLayout hl = new HorizontalLayout();
         content.addComponent(hl);
-        ((VerticalLayout) getContent()).setExpandRatio(hl, 1);
-        ((VerticalLayout) getContent()).setComponentAlignment(hl,
+        content.setExpandRatio(hl, 1);
+        content.setComponentAlignment(hl,
                 Alignment.MIDDLE_LEFT);
 
         final Sparklines s2 = new Sparklines("Random", 200, 70, 0, 200) {
@@ -179,7 +178,7 @@ public class SparklinesRoot extends UI {
         hl.addComponent(rand);
         hl.setComponentAlignment(rand, Alignment.MIDDLE_LEFT);
 
-        configure = new ConfigureWindow(s2);
+        final ConfigureWindow configure = new ConfigureWindow(s2);
         Button conf = new Button("Configure", new Button.ClickListener() {
             public void buttonClick(ClickEvent event) {
                 if (configure.getParent() == null || !configure.isVisible()) {
@@ -190,6 +189,7 @@ public class SparklinesRoot extends UI {
         hl.addComponent(conf);
         hl.setComponentAlignment(conf, Alignment.MIDDLE_LEFT);
 
+        return content;
     }
 
     private Double[] random() {
@@ -223,14 +223,17 @@ public class SparklinesRoot extends UI {
                             propertyId, uiContext);
                 }
             });
-            conf.setItemDataSource(new BeanItem<Sparklines>(s, new String[] {
-                    "averageVisible", "averageColor", "caption", "description",
-                    "displayRangeMax", "displayRangeMin", "graphHeight",
-                    "graphWidth", "minmaxDotsVisible", "minmaxLabelsVisible",
-                    "maxColor", "minColor", "normalRangeVisible",
-                    "normalRangeColor", "normalRangeMin", "normalRangeMax",
-                    "pathColor", "pathWidth", "valueDotVisible",
-                    "valueLabelVisible", "valueColor" }));
+            // This don't seem to work any more.  getValue causes issues in 
+            // Vaadin these days :-(. Why is Sparklines a Field??
+//            conf.setItemDataSource(new BeanItem<Sparklines>(s));
+//            conf.setItemDataSource(new BeanItem<Sparklines>(s, new String[]{
+//                "averageVisible", "averageColor", "caption", "description",
+//                "displayRangeMax", "displayRangeMin", "graphHeight",
+//                "graphWidth", "minmaxDotsVisible", "minmaxLabelsVisible",
+//                "maxColor", "minColor", "normalRangeVisible",
+//                "normalRangeColor", "normalRangeMin", "normalRangeMax",
+//                "pathColor", "pathWidth", "valueDotVisible",
+//                "valueLabelVisible", "valueColor"}));
             /*-
             conf.setVisibleItemProperties(new String[] { "averageVisible",
                     "averageColor", "caption", "description",
@@ -246,11 +249,12 @@ public class SparklinesRoot extends UI {
 
             content.addComponent(new Button("Apply",
                     new Button.ClickListener() {
-                        public void buttonClick(ClickEvent event) {
-                            conf.commit();
-                        }
-                    }));
+                public void buttonClick(ClickEvent event) {
+                    conf.commit();
+                }
+            }));
         }
+
     }
 
 }
