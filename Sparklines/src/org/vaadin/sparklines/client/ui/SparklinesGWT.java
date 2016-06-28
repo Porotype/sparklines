@@ -18,7 +18,8 @@ import com.google.gwt.user.client.ui.Label;
 // TODO setDotSize
 // TODO ? set
 public class SparklinesGWT extends Composite {
-
+    private static final double MAXIMAL_VALUE = Double.MAX_VALUE;
+    private static final double MINIMAL_VALUE = -(Double.MAX_VALUE - 1);
     public static String CLASSNAME = "v-sparkline";
 
     private static int PAD = 4;
@@ -41,10 +42,10 @@ public class SparklinesGWT extends Composite {
     protected String pathColor = "#ccc";
     protected int pathWidth = 1;
 
-    protected double max = -(Double.MAX_VALUE - 1);
+    protected double max = MINIMAL_VALUE;
     protected double maxidx = 0;
     protected double minidx = 0;
-    protected double min = Double.MAX_VALUE;
+    protected double min = MAXIMAL_VALUE;
 
     protected int avg = 0;
 
@@ -284,10 +285,10 @@ public class SparklinesGWT extends Composite {
     }
 
     private void redraw() {
-        max = Integer.MIN_VALUE;
+        max = MINIMAL_VALUE;
         maxidx = 0;
         minidx = 0;
-        min = Integer.MAX_VALUE;
+        min = MAXIMAL_VALUE;
 
         avg = 0;
 
@@ -391,11 +392,11 @@ public class SparklinesGWT extends Composite {
     }
 
     private double effectiveMin() {
-        return displayLow < Integer.MAX_VALUE ? displayLow : min;
+        return displayLow < MAXIMAL_VALUE ? displayLow : min;
     }
 
     private double effectiveMax() {
-        return displayHigh > Integer.MIN_VALUE ? displayHigh : max;
+        return displayHigh > MINIMAL_VALUE ? displayHigh : max;
     }
 
     private int translateY(double y) {
