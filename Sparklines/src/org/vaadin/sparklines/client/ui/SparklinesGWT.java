@@ -41,7 +41,7 @@ public class SparklinesGWT extends Composite {
     protected String pathColor = "#ccc";
     protected int pathWidth = 1;
 
-    protected double max = Double.MIN_VALUE;
+    protected double max = -Double.MAX_VALUE;//Double.MIN_VALUE;
     protected double maxidx = 0;
     protected double minidx = 0;
     protected double min = Double.MAX_VALUE;
@@ -71,7 +71,7 @@ public class SparklinesGWT extends Composite {
     protected String valueColor = "#00f";
 
     public SparklinesGWT(String caption, int graphWidth, int graphHeight,
-            int displayRangeMin, int displayRangeMax) {
+                         int displayRangeMin, int displayRangeMax) {
         this.graphHeight = graphHeight;
         this.graphWidth = graphWidth;
         this.displayHigh = displayRangeMax;
@@ -284,7 +284,7 @@ public class SparklinesGWT extends Composite {
     }
 
     private void redraw() {
-        max = Double.MIN_VALUE;
+        max = Integer.MIN_VALUE;//Double.MIN_VALUE;
         maxidx = 0;
         minidx = 0;
         min = Integer.MAX_VALUE;
@@ -324,9 +324,8 @@ public class SparklinesGWT extends Composite {
         }
         value.setText(String.valueOf(data[data.length - 1]));
 
-        double effectiveMin = (displayLow < Double.MAX_VALUE ? displayLow : min);
-        double effectiveMax = (displayHigh > Double.MIN_VALUE ? displayHigh
-                : max);
+        double effectiveMin = effectiveMin();
+        double effectiveMax = effectiveMax();
 
         if (graphHeight < 1) {
             // canvas.setHeight(effectiveMax - effectiveMin + PAD);
@@ -342,8 +341,7 @@ public class SparklinesGWT extends Composite {
             canvas.setWidth(graphWidth);
         }
 
-        vscale = (double) (canvas.getHeight() - PAD)
-                / (effectiveMax - effectiveMin);
+        vscale = (double) (canvas.getHeight() - PAD) / (effectiveMax - effectiveMin);
         hscale = (double) (canvas.getWidth() - PAD) / (data.length - 1);
 
         // average
@@ -392,9 +390,16 @@ public class SparklinesGWT extends Composite {
 
     }
 
+    private double effectiveMin() {
+        return displayLow < Integer.MAX_VALUE ? displayLow : min;
+    }
+
+    private double effectiveMax() {
+        return displayHigh > Integer.MIN_VALUE ? displayHigh : max;
+    }
+
     private int translateY(double y) {
-        double effectiveMin = (displayLow < Integer.MAX_VALUE ? displayLow
-                : min);
+        double effectiveMin = effectiveMin();
         int newY = (int) ((y - effectiveMin) * vscale);
         int res = (canvas.getHeight() - newY) - OFFSET;
         return res;
