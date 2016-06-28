@@ -41,7 +41,7 @@ public class SparklinesGWT extends Composite {
     protected String pathColor = "#ccc";
     protected int pathWidth = 1;
 
-    protected double max = -Double.MAX_VALUE;//Double.MIN_VALUE;
+    protected double max = -(Double.MAX_VALUE - 1);
     protected double maxidx = 0;
     protected double minidx = 0;
     protected double min = Double.MAX_VALUE;
@@ -284,7 +284,7 @@ public class SparklinesGWT extends Composite {
     }
 
     private void redraw() {
-        max = Integer.MIN_VALUE;//Double.MIN_VALUE;
+        max = Integer.MIN_VALUE;
         maxidx = 0;
         minidx = 0;
         min = Integer.MAX_VALUE;
