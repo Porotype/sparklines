@@ -7,3 +7,9 @@ see Tufte's book "Beautiful Evidence" or view the chapter about sparklines onlin
 http://www.edwardtufte.com/bboard/q-and-a-fetch-msg?msg_id=0001OR
 
 Also see the Vaadin Directory page at http://vaadin.com/addon/sparklines
+
+ # License
+ 
+ The Sparklines for GWT and Vaadin is licensed under the 
+ 
+	Apache License Version 2.0	http://www.apache.org/licenses/LICENSE-2.0.html
