@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.vaadin.addons</groupId>
+    <artifactId>sparklines</artifactId>
+    <version>7.0.3-SNAPSHOT</version>
+    <packaging>jar</packaging>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <vaadin.version>7.6.1</vaadin.version>
+        <maven.compiler.source>1.7</maven.compiler.source>
+        <maven.compiler.target>1.7</maven.compiler.target>
+    </properties>
+    <repositories>
+        <repository>
+            <id>vaadin-addons</id>
+            <url>http://maven.vaadin.com/vaadin-addons</url>
+        </repository>
+    </repositories>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-server</artifactId>
+            <version>${vaadin.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-client</artifactId>
+            <version>${vaadin.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.vaadin.addons</groupId>
+            <artifactId>gwt-graphics</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.vaadin</groupId>
+            <artifactId>addon-test-helpers</artifactId>
+            <version>1.4</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-themes</artifactId>
+            <version>${vaadin.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+
+    </dependencies>
+    
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.vaadin</groupId>
+                <artifactId>vaadin-maven-plugin</artifactId>
+                <version>${vaadin.version}</version>
+                <configuration>
+                    <webappDirectory>${project.build.directory}/testwebapp/VAADIN/widgetsets</webappDirectory>
+                    <extraJvmArgs>-Xmx1024M -Xss512m -XX:MaxPermSize=1024m</extraJvmArgs>
+                    <hostedWebapp>${project.build.directory}/testwebapp</hostedWebapp>
+                    <noServer>true</noServer>
+                    <runTarget>http://localhost:9998/</runTarget>
+                    <draftCompile>true</draftCompile>
+                    <style>PRETTY</style>
+                    <!-- If you do lots of e.g. plain css changes and don't wish to use 
+                    hosted mode, you can force compile easily with uncommenting following rule -->
+                    <!-- 						<force>true</force> -->
+                    <strict>true</strict>
+                </configuration>
+                <executions>
+                    <execution>
+                        <configuration>
+                            <vaadin.theme></vaadin.theme>
+                        </configuration>
+                        <goals>
+                            <goal>resources</goal>
+                            <goal>compile</goal>
+                            <goal>compile-theme</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>        
+                <groupId>org.apache.maven.plugins</groupId>        
+                <artifactId>maven-jar-plugin</artifactId>        
+                <version>2.6</version>        
+                <configuration>            
+                    <archive>                
+                        <manifest>                    
+                            <addClasspath>true</addClasspath>
+                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>                
+                        </manifest>                
+                        <manifestEntries>
+                            <Vaadin-Package-Version>1</Vaadin-Package-Version>
+                            <Vaadin-Widgetsets>org.vaadin.sparklines.SparklinesWidgetset</Vaadin-Widgetsets>
+                        </manifestEntries>            
+                    </archive>        
+                </configuration>    
+            </plugin>
+
+        </plugins>
+    </build>
+    
+    
+</project>
